@@ -20,6 +20,9 @@ import './styles/styles.scss';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 
+// DB
+import './firebase/firebase';
+
 // Combine imported reducers
 const store = configureStore();
 
@@ -28,6 +31,10 @@ const jsx = (
     <AppRouter/>
   </Provider>
 );
+
+const promise = new Promise((res, rej) => {
+  setTimeout(() => res('result'), 3000);
+});
 
 // render
 ReactDOM.render(jsx, document.getElementById('app'));
