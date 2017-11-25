@@ -22,7 +22,7 @@ export const startAddExpense = (expenseData = {}) => {
     // push into Firebase and get back generated ID of expense, return promise
     return database.ref('expenses').push(expense).then((ref) => {
       // dispatch expense into redux store by passing an expense into addExpense func
-      dispatch(addExpense({id: ref.key, ...expense}))
+      dispatch(addExpense({id: ref.key, ...expense}));
     })
   };
 };
@@ -30,6 +30,14 @@ export const startAddExpense = (expenseData = {}) => {
 // Remove expense
 export const removeExpense = ({id} = {}) => {
   return ({type: 'REMOVE_EXPENSE', id})
+};
+
+export const startRemoveExpense = ({id} = {}) => {
+  return (dispatch) => {
+    return  database.ref(`expenses/${id}`).remove().then(() => {
+      dispatch(removeExpense({id}));
+    });
+  }
 };
 
 // Edit expense
