@@ -56,24 +56,31 @@ test('should not edit an expense if id not found', () => {
   expect(state).toEqual(expenses);
 });
 
+test('should set expenses', () => {
+  const action = {
+    type: 'SET_EXPENSES',
+    expenses: [expenses[1]]
+  };
+  const state = expensesReducer(expenses, action);
+  expect(state).toEqual([expenses[1]]);
+});
 
-
-/** Expenses Reducer **/
-export default (state = expensesReducerDefaultState, action) => {
-  switch (action.type) {
-    case 'ADD_EXPENSE':
-      return [...state, action.expense];
-    case 'REMOVE_EXPENSE':
-      return state.filter(({id}) => id !== action.id);
-    case 'EDIT_EXPENSE':
-      return state.map((expense, i, arr) => {
-        if (action.id === expense.id) {
-          return {...expense, ...action.updates}; // overwrite object with new props
-        } else {
-          return expense;
-        }
-      });
-    default:
-      return state;
-  }
-};
+// /** Expenses Reducer **/
+// export default (state = expensesReducerDefaultState, action) => {
+//   switch (action.type) {
+//     case 'ADD_EXPENSE':
+//       return [...state, action.expense];
+//     case 'REMOVE_EXPENSE':
+//       return state.filter(({id}) => id !== action.id);
+//     case 'EDIT_EXPENSE':
+//       return state.map((expense, i, arr) => {
+//         if (action.id === expense.id) {
+//           return {...expense, ...action.updates}; // overwrite object with new props
+//         } else {
+//           return expense;
+//         }
+//       });
+//     default:
+//       return state;
+//   }
+// };

@@ -12,24 +12,27 @@ exports[`should render ExpenseList with expenses 1`] = `
 <div>
   <ExpenseListItem
     amount={50600}
-    createdAt={"1970-01-01T00:00:00.000Z"}
+    createdAt={0}
     description="Gym "
-    id={0}
+    id="0"
     key="0"
+    note=""
   />
   <ExpenseListItem
     amount={100500}
     createdAt={-345600000}
     description="Rent bill"
-    id={1}
+    id="1"
     key="1"
+    note=""
   />
   <ExpenseListItem
     amount={100}
     createdAt={345600000}
     description="water bill"
-    id={2}
+    id="2"
     key="2"
+    note=""
   />
 </div>
 `;

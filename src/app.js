@@ -8,11 +8,7 @@ import AppRouter from './routers/AppRouter.js'
 import configureStore from './store/configureStore';
 
 // Actions
-import {addExpense, removeExpense, editExpense} from './actions/expenses';
-import {setTextFilter, sortByAmount, sortByDate, setStartDate, setEndDate} from './actions/filters';
-
-// Selectors
-import getVisibleExpenses from './selectors/expenses';
+import { startSetExpenses } from "./actions/expenses"
 
 // Css
 import 'normalize.css/normalize.css';
@@ -32,9 +28,11 @@ const jsx = (
   </Provider>
 );
 
-const promise = new Promise((res, rej) => {
-  setTimeout(() => res('result'), 3000);
+ReactDOM.render(<p>Loading...</p>, document.getElementById('app'));
+
+// get data from Firebase
+store.dispatch(startSetExpenses()).then(() => {
+  // render
+  ReactDOM.render(jsx, document.getElementById('app'));
 });
 
-// render
-ReactDOM.render(jsx, document.getElementById('app'));
