@@ -3,12 +3,12 @@ import {shallow} from 'enzyme';
 import {EditExpensePage} from '../../components/EditExpensePage';
 import expenses from '../fixtures/expenses';
 
-let expense, history, editExpense, startRemoveExpense, wrapper;
+let expense, history, startEditExpense, startRemoveExpense, wrapper;
 
 beforeEach(() => {
   expense = expenses[1];
   history = {push: jest.fn()};
-  editExpense = jest.fn();
+  startEditExpense = jest.fn();
   startRemoveExpense = jest.fn();
 
   // pass in props FROM CONNECT (connect(mapStateToProps, mapDispatchToProps))
@@ -16,7 +16,7 @@ beforeEach(() => {
     <EditExpensePage
       expense={expense}
       history={history}
-      editExpense={editExpense}
+      startEditExpense={startEditExpense}
       startRemoveExpense={startRemoveExpense}
     />
   );
@@ -28,7 +28,7 @@ test('should render EditExpensePage correctly', () => {
 
 test('should pass an expense updates on form submit', () => {
   wrapper.find('ExpenseForm').prop('onSubmit')(expense);
-  expect(editExpense).toHaveBeenLastCalledWith(expense.id, expense);
+  expect(startEditExpense).toHaveBeenLastCalledWith(expense.id, expense);
   expect(history.push).toHaveBeenLastCalledWith('/');
 });
 

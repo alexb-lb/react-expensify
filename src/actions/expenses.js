@@ -5,7 +5,7 @@ import database from '../firebase/firebase';
 // component dispatches function (?)
 // function runs (has the ability to dispath other actions and do whatever it wants)
 
-// Add expense
+// ADD_EXPENSE
 export const addExpense = (expense) => ({
   type: 'ADD_EXPENSE',
   expense
@@ -27,7 +27,7 @@ export const startAddExpense = (expenseData = {}) => {
   };
 };
 
-// Remove expense
+// REMOVE_EXPENSE
 export const removeExpense = ({id} = {}) => {
   return ({type: 'REMOVE_EXPENSE', id})
 };
@@ -40,9 +40,17 @@ export const startRemoveExpense = ({id} = {}) => {
   }
 };
 
-// Edit expense
+// EDIT_EXPENSE
 export const editExpense = (id, updates = {}) => {
   return ({type: 'EDIT_EXPENSE', id, updates});
+};
+
+export const startEditExpense = (id, updates = {}) => {
+  return (dispatch) => {
+    return database.ref(`expenses/${id}`).update(updates).then(() => {
+      dispatch(editExpense(id, updates))
+    })
+  }
 };
 
 // SET_EXPENSES
@@ -50,6 +58,7 @@ export const setExpenses = (expenses) => ({
   type: 'SET_EXPENSES',
   expenses
 });
+
 
 export const startSetExpenses = () => {
   // return function to access dispatch method as argument from redux store
