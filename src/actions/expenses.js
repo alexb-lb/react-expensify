@@ -13,14 +13,18 @@ export const addExpense = (expense) => ({
 
 export const startAddExpense = (expenseData = {}) => {
   // return function to access dispatch method as argument from redux store
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    // get state of store to get user id
+    const uid = getState().auth.uid;
+
     // destructuring properties from expenseData
     // const for every name in obj (const description = ''; const note = '')
     const {description = '', note = '', amount = 0, createdAt = 0} = expenseData;
 
     const expense = {description, note, amount, createdAt};
+
     // push into Firebase and get back generated ID of expense, return promise
-    return database.ref('expenses').push(expense).then((ref) => {
+    return database.ref(`users/${uid}/expenses`).push(expense).then((ref) => {
       // dispatch expense into redux store by passing an expense into addExpense func
       dispatch(addExpense({id: ref.key, ...expense}));
     })
@@ -33,8 +37,9 @@ export const removeExpense = ({id} = {}) => {
 };
 
 export const startRemoveExpense = ({id} = {}) => {
-  return (dispatch) => {
-    return  database.ref(`expenses/${id}`).remove().then(() => {
+  return (dispatch, getState) => {
+    const uid = getState().auth.uid;
+    return  database.ref(`users/${uid}/expenses/${id}`).remove().then(() => {
       dispatch(removeExpense({id}));
     });
   }
@@ -46,8 +51,9 @@ export const editExpense = (id, updates = {}) => {
 };
 
 export const startEditExpense = (id, updates = {}) => {
-  return (dispatch) => {
-    return database.ref(`expenses/${id}`).update(updates).then(() => {
+  return (dispatch, getState) => {
+    const uid = getState().auth.uid;
+    return database.ref(`users/${uid}/expenses/${id}`).update(updates).then(() => {
       dispatch(editExpense(id, updates))
     })
   }
@@ -62,9 +68,10 @@ export const setExpenses = (expenses) => ({
 
 export const startSetExpenses = () => {
   // return function to access dispatch method as argument from redux store
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const uid = getState().auth.uid;
     // return function to access promise chaining further
-    return database.ref(`expenses`).once('value').then((snapshot) => {
+    return database.ref(`users/${uid}/expenses`).once('value').then((snapshot) => {
       const expenses = [];
       snapshot.forEach((childSnapshot) => {
         expenses.push(({
