@@ -20,6 +20,9 @@ import 'react-dates/lib/css/_datepicker.css';
 // DB
 import {firebase} from './firebase/firebase';
 
+// Components
+import LoadingPage from './components/LoadingPage'
+
 // Combine imported reducers
 const store = configureStore();
 
@@ -39,7 +42,7 @@ const renderApp = () => {
 };
 
 // waits until database sends info about authentication
-ReactDOM.render(<p>Loading...</p>, document.getElementById('app'));
+ReactDOM.render(<LoadingPage/>, document.getElementById('app'));
 
 // listen when firebase check if user logged in
 firebase.auth().onAuthStateChanged((user) => {
